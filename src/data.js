@@ -7,7 +7,7 @@ export const HOTSPOT_CARDS = [
     news_overview:
       "2月25日，阿里开源Qwen3.5三款中型模型（35B-A3B、122B-A10B、27B），并在阿里云百炼上线Qwen3.5-Flash，输入低至0.2元/百万Token。",
     news_detail:
-      "2月25日，阿里开源Qwen3.5系列新增三款中等规模模型：Qwen3.5-35B-A3B、Qwen3.5-122B-A10B、Qwen3.5-27B。报道强调这些模型在多项评测中超过上一代更大模型，并可在消费级显卡部署，显著降低中小团队的模型使用门槛。同时，基于Qwen3.5-35B-A3B的托管模型Qwen3.5-Flash上线阿里云百炼，输入价格低至0.2元/百万Token，进一步压缩推理成本。",
+      "2月25日，阿里开源Qwen3.5系列新增三款中等规模模型：Qwen3.5-35B-A3B、Qwen3.5-122B-A10B、Qwen3.5-27B。多方讨论强调这些模型在多项评测中超过上一代更大模型，并可在消费级显卡部署，显著降低中小团队的模型使用门槛。同时，基于Qwen3.5-35B-A3B的托管模型Qwen3.5-Flash上线阿里云百炼，输入价格低至0.2元/百万Token，进一步压缩推理成本。",
     news_bullets: [
       "开源三款中型模型：35B-A3B、122B-A10B、27B",
       "可在消费级显卡部署，降低门槛",
@@ -132,136 +132,136 @@ export const HOTSPOT_CARDS = [
     insight_fragment: "多模型编排是未来内容产能的基本盘。"
   },
   {
-    id: "baidu-ai-cloud",
+    id: "openclaw-local",
     date: "2026-02-26",
-    title: "百度财报：AI算力订阅收入同比增143%",
-    subtitle: "AI云成为核心增长引擎",
+    title: "行业观察：OpenClaw本地化交付开始成主流",
+    subtitle: "不是接入热潮，而是“场景化软硬一体”",
     news_overview:
-      "2月26日，百度发布财报，Q4营收327.4亿元，AI高性能计算订阅收入同比增长143%。",
+      "2月下旬行业讨论中，OpenClaw被大量厂商接入，但更有效的落地路径被认为是“本地化+场景化”交付，而非纯接入。",
     news_detail:
-      "2月26日，百度发布2025年第四季度财报：营收327.4亿元，略高于市场预期。智能云基础设施业务季度收入达58亿元，其中AI高性能计算设施订阅收入同比增长143%。全年来看，智能云基础设施收入约200亿元，同比增长34%，显示AI算力需求持续释放。",
+      "2月下旬的行业讨论里，OpenClaw作为工作流/Agent产品被大量厂商接入。然而越来越多一线交付团队发现，单纯接入无法产生可持续业务价值，真正可落地的路径是“场景化软硬一体”：例如酒店客户，要求本地部署与数据可控，可通过OpenClaw + 本地Mac mini，将素材库与房型资料库接入，结合节日营销热点与活动timeline自动生成种草内容，再用扫码分发链路完成留资与预订转化。对客户而言，价值不在“接入”，而在“能跑起来的完整任务链”。",
     news_bullets: [
-      "Q4营收327.4亿元",
-      "AI高性能计算订阅收入同比+143%",
-      "智能云基础设施全年收入约200亿元"
+      "OpenClaw接入热度高，但单点接入难转化",
+      "软硬一体本地化成为可落地路径",
+      "场景任务链（内容生成→扫码分发→转化）才是价值"
     ],
     quiz: {
-      question: "百度AI云增长的关键驱动是什么？",
-      options: ["广告收入", "算力订阅收入爆发", "硬件零售"],
+      question: "OpenClaw真正能落地的关键是什么？",
+      options: ["快速接入API", "本地化场景任务链", "只做功能演示"],
       answerIndex: 1,
-      hint: "财报强调‘算力订阅’"
+      hint: "关键词是“场景化软硬一体”"
     },
     biz_insights: [
-      "客户愿意为稳定算力付费：交付中必须把“算力保障”写进方案",
-      "内容营销也要“算力化”：把生产节奏与推理成本绑定",
-      "用成本与ROI对账表建立客户续费理由"
+      "酒店客户：OpenClaw+本地Mac mini+素材库/房型库，形成可控内容产线",
+      "节日与活动timeline驱动批量种草内容，扫码分发形成可追踪转化",
+      "交付件从“接入报告”升级为“可运行的系统包”"
     ],
     strategies: [
       {
-        label: "A 堆资源",
-        description: "高配算力保障产出速度",
-        cost: { Team: 2, Budget: 3, Compute: 4 },
-        impact: { Growth: 2, GEO: 0, Ads: 2, Deploy: 1, Risk: 2 },
-        unlock_card: "策略卡：算力保障"
+        label: "A 只做接入",
+        description: "交付OpenClaw接入与基础流程",
+        cost: { Team: 2, Budget: 1, Compute: 1 },
+        impact: { Growth: 1, GEO: 0, Ads: 1, Deploy: 1, Risk: 2 },
+        unlock_card: "策略卡：接入交付"
       },
       {
-        label: "B 成本管控",
-        description: "算力+内容产能做成本闭环",
-        cost: { Team: 3, Budget: 2, Compute: 3 },
-        impact: { Growth: 2, GEO: 0, Ads: 2, Deploy: 2, Risk: 1 },
-        unlock_card: "策略卡：算力成本闭环"
+        label: "B 本地一体",
+        description: "软硬一体交付，客户拿到即用",
+        cost: { Team: 4, Budget: 3, Compute: 1 },
+        impact: { Growth: 2, GEO: 1, Ads: 1, Deploy: 4, Risk: 1 },
+        unlock_card: "策略卡：本地化一体"
       },
       {
-        label: "C 订阅化",
-        description: "服务做成算力订阅包",
-        cost: { Team: 4, Budget: 3, Compute: 3 },
-        impact: { Growth: 3, GEO: 1, Ads: 2, Deploy: 3, Risk: 1 },
-        unlock_card: "策略卡：算力订阅包"
+        label: "C 场景产品化",
+        description: "把酒店方案做成可复制行业套件",
+        cost: { Team: 4, Budget: 3, Compute: 2 },
+        impact: { Growth: 3, GEO: 1, Ads: 1, Deploy: 3, Risk: 1 },
+        unlock_card: "策略卡：行业套件"
       }
     ],
     case_popup: {
-      title: "企业客户：算力订阅式交付",
-      scenario: "客户追求稳定产能与成本可控",
+      title: "酒店本地化：OpenClaw软硬一体交付",
+      scenario: "酒店不愿上云，要求低延迟与数据可控",
       deliverables: [
-        "算力订阅方案（档位/费用/产能）",
-        "内容产能周报（产出与成本）",
-        "ROI复盘表（投放效果与算力成本）",
-        "续费模型（预算与产能预测）"
+        "本地Mac mini部署包（含OpenClaw与运行脚本）",
+        "素材库/房型库接入（字段化权限）",
+        "节日timeline内容生成器",
+        "扫码分发与转化追踪表"
       ],
       workflow: [
-        "评估：算力需求与预算",
-        "订阅：分层配置",
-        "交付：产能与效果联动",
-        "复盘：续费与升级"
+        "设备交付与验收",
+        "资产接入与字段化",
+        "内容批量生成",
+        "扫码分发与复盘"
       ]
     },
-    insight_fragment: "算力订阅正在变成AI交付的核心商业模型。"
+    insight_fragment: "OpenClaw的价值不是接入，而是场景化交付。"
   },
   {
-    id: "baidu-ai-share",
+    id: "xhs-geo-trend",
     date: "2026-02-26",
-    title: "百度首次披露AI业务收入占比",
-    subtitle: "AI业务营收达400亿元，占一般性业务43%",
+    title: "行业关注：小红书GEO被引用机制升温",
+    subtitle: "“引用席位”成为品牌争夺的新战场",
     news_overview:
-      "2月26日，百度披露AI业务收入占比：2025年AI业务营收400亿元，占一般性业务收入43%。",
+      "2月下旬，行业开始集中讨论小红书GEO：AI总结引用席位有限，品牌竞争焦点转向“被引用率”。",
     news_detail:
-      "2月26日，百度发布财报并首次披露AI业务收入占比。数据显示，2025年百度总营收1291亿元，AI业务营收达400亿元；四季度AI业务收入占百度一般性业务收入的43%。这意味着百度的价值锚点从广告逐步转向AI云、应用和自动驾驶等业务。",
+      "2月下旬，小红书GEO被大量内容团队视为“新入口”。行业讨论认为，AI总结的引用席位有限，核心不在爆款，而在“被引用”。入口触发差异明显：点点更易触发，问一问展示位受限，直搜产品词触发率低但叠加痛点疑问/对比抉择更容易撕口子。对丝塔芙等品牌而言，策略重点已从“流量爆发”转为“引用席位攻坚+评论语料工程”。",
     news_bullets: [
-      "2025年AI业务营收400亿元",
-      "四季度AI业务收入占比43%",
-      "百度估值逻辑向AI业务迁移"
+      "引用席位有限，“被引用率”成为核心指标",
+      "入口触发差异明显：点点>问一问>直搜",
+      "评论语料工程决定引用稳定性"
     ],
     quiz: {
-      question: "这条新闻最重要的信号是什么？",
-      options: ["AI收入占比下降", "AI业务成为核心价值锚点", "百度退出AI"],
+      question: "GEO的第一目标是什么？",
+      options: ["更多笔记", "抢引用席位", "高颜值封面"],
       answerIndex: 1,
-      hint: "关键词是‘首次披露AI业务占比’"
+      hint: "关键词是“引用席位有限”"
     },
     biz_insights: [
-      "客户开始看“AI业务占比”：要用“业务贡献率”讲故事",
-      "内容营销交付需与收入挂钩：从曝光到转化形成闭环",
-      "把“AI业务占比”转成客户汇报模板"
+      "丝塔芙：问题词库→20席位攻坚笔记→评论语料→引用率复盘闭环",
+      "结构化写法：经验口吻+步骤清单+适用人群+对比结论",
+      "评论区高赞当第二正文，提前埋关键短语"
     ],
     strategies: [
       {
-        label: "A 强叙事",
-        description: "强调AI价值叙事",
-        cost: { Team: 2, Budget: 1, Compute: 1 },
-        impact: { Growth: 2, GEO: 1, Ads: 1, Deploy: 1, Risk: 1 },
-        unlock_card: "策略卡：AI叙事"
+        label: "A 做爆款",
+        description: "先冲一篇爆文",
+        cost: { Team: 2, Budget: 2, Compute: 1 },
+        impact: { Growth: 2, GEO: 0, Ads: 2, Deploy: 0, Risk: 2 },
+        unlock_card: "策略卡：爆款冲刺"
       },
       {
-        label: "B 强指标",
-        description: "用收入贡献率做背书",
+        label: "B 席位攻坚",
+        description: "做20席位入选矩阵",
         cost: { Team: 3, Budget: 2, Compute: 2 },
-        impact: { Growth: 3, GEO: 1, Ads: 2, Deploy: 2, Risk: 1 },
-        unlock_card: "策略卡：指标背书"
+        impact: { Growth: 2, GEO: 4, Ads: 1, Deploy: 2, Risk: 1 },
+        unlock_card: "策略卡：席位攻坚"
       },
       {
-        label: "C 强交付",
-        description: "交付驱动AI业务占比提升",
+        label: "C 语料系统",
+        description: "评论语料工程+引用复盘",
         cost: { Team: 4, Budget: 2, Compute: 2 },
-        impact: { Growth: 3, GEO: 1, Ads: 2, Deploy: 3, Risk: 1 },
-        unlock_card: "策略卡：交付占比"
+        impact: { Growth: 2, GEO: 3, Ads: 0, Deploy: 3, Risk: 1 },
+        unlock_card: "策略卡：语料系统"
       }
     ],
     case_popup: {
-      title: "AI业务占比：客户汇报模板",
-      scenario: "客户希望看到AI对业务收入的贡献度",
+      title: "丝塔芙GEO：20席位攻坚作战包",
+      scenario: "目标：提高AI总结引用率与品牌权威感",
       deliverables: [
-        "AI收入贡献率看板",
-        "业务指标拆解表（线索/转化）",
-        "季度复盘报告",
-        "AI业务叙事PPT"
+        "问题词库（痛点疑问/对比抉择/使用步骤/人群适配）≥80",
+        "攻坚笔记矩阵（每词2-3篇不同经验视角）≥60",
+        "评论语料脚本（高赞问答模板+关键短语埋点）",
+        "引用率复盘表（入口/关键词/引用位置/被抽取句）"
       ],
       workflow: [
-        "定口径：收入贡献率",
-        "建看板：指标映射",
-        "复盘：贡献解释",
-        "迭代：交付优化"
+        "建词库：按入口触发逻辑分类",
+        "写矩阵：经验口吻+结构化步骤",
+        "埋语料：评论区高赞问答脚本",
+        "复盘迭代：按被引用率改结构与短语"
       ]
     },
-    insight_fragment: "AI业务占比是投资与客户都在关注的指标。"
+    insight_fragment: "GEO是引用席位争夺战，而非爆款赛。"
   },
   {
     id: "openrouter-cn",
@@ -330,72 +330,6 @@ export const HOTSPOT_CARDS = [
     insight_fragment: "调用量规模化是商业化的直接信号。"
   },
   {
-    id: "agibot-eu",
-    date: "2026-02-25",
-    title: "智元机器人进入德国市场",
-    subtitle: "发布通用具身机器人矩阵",
-    news_overview:
-      "2月25日，智元（AGIBOT）在德国慕尼黑发布会宣布进入德国市场，并与敏实集团签署合作协议。",
-    news_detail:
-      "IT之家报道，智元（AGIBOT）2月24日在慕尼黑举办发布会，正式宣布进入德国市场，发布面向德国市场的通用具身机器人产品矩阵及行业解决方案，并与汽车外饰与结构件制造商敏实集团签署专项战略合作协议。双方将依托欧洲市场资源加速本地化落地与规模化部署。",
-    news_bullets: [
-      "在慕尼黑发布会宣布进入德国市场",
-      "发布通用具身机器人产品矩阵",
-      "与敏实集团签署欧洲合作协议"
-    ],
-    quiz: {
-      question: "智元此次发布会的关键结果是什么？",
-      options: ["退出欧洲市场", "进入德国并签署合作", "停止研发具身机器人"],
-      answerIndex: 1,
-      hint: "关键词是‘进入德国市场’"
-    },
-    biz_insights: [
-      "具身智能出海强调“场景交付”：营销内容要可落地",
-      "把“体验过程”做成内容素材矩阵",
-      "结合GEO与搜索占位提升品牌可信度"
-    ],
-    strategies: [
-      {
-        label: "A 做展厅",
-        description: "以展示内容为主",
-        cost: { Team: 2, Budget: 2, Compute: 1 },
-        impact: { Growth: 1, GEO: 0, Ads: 1, Deploy: 1, Risk: 1 },
-        unlock_card: "策略卡：出海展厅"
-      },
-      {
-        label: "B 做场景",
-        description: "用场景脚本塑造可交付能力",
-        cost: { Team: 3, Budget: 2, Compute: 2 },
-        impact: { Growth: 2, GEO: 1, Ads: 2, Deploy: 3, Risk: 1 },
-        unlock_card: "策略卡：场景脚本"
-      },
-      {
-        label: "C 做占位",
-        description: "抢占海外GEO与搜索口碑",
-        cost: { Team: 3, Budget: 3, Compute: 2 },
-        impact: { Growth: 2, GEO: 4, Ads: 1, Deploy: 2, Risk: 1 },
-        unlock_card: "策略卡：海外占位"
-      }
-    ],
-    case_popup: {
-      title: "出海场景：具身智能内容化方案",
-      scenario: "客户希望在海外市场建立具身智能品牌认知",
-      deliverables: [
-        "场景脚本库（演示/交付/售后）",
-        "多语种内容包",
-        "海外搜索与GEO词库",
-        "市场反馈复盘表"
-      ],
-      workflow: [
-        "拆场景：海外市场需求",
-        "内容化：体验过程脚本",
-        "分发：多渠道铺量",
-        "复盘：认知与转化"
-      ]
-    },
-    insight_fragment: "具身智能的竞争点正在从技术转向场景交付。"
-  },
-  {
     id: "ai-entry-subsidy",
     date: "2026-02-22",
     title: "行业周报：春节前后大厂AI入口投入超45亿元",
@@ -403,7 +337,7 @@ export const HOTSPOT_CARDS = [
     news_overview:
       "2月22日行业周报指出，春节前后字节、阿里、腾讯、百度累计投入超45亿元推动AI入口普及。",
     news_detail:
-      "2月22日东方证券行业周报指出，春节前后字节跳动、阿里、腾讯、百度四家大厂累计投入超45亿元，以红包、免单、科技礼品等形式推动AI应用普及。报告同时提到2月以来多家厂商发布新一代模型，OpenRouter统计显示中国模型Tokens消耗在全球前三，行业从模型PK走向场景与生态比拼。",
+      "2月22日行业周报指出，春节前后字节跳动、阿里、腾讯、百度四家大厂累计投入超45亿元，以红包、免单、科技礼品等形式推动AI应用普及。报告同时提到2月以来多家厂商发布新一代模型，行业竞争从模型PK转向场景与生态比拼。",
     news_bullets: [
       "春节前后大厂累计投入超45亿元",
       "红包/免单/礼品推动AI应用普及",
@@ -460,6 +394,72 @@ export const HOTSPOT_CARDS = [
       ]
     },
     insight_fragment: "入口补贴结束后，资产沉淀才是胜负手。"
+  },
+  {
+    id: "seedance-2",
+    date: "2026-02-27",
+    title: "Seedance 2.0爆火：视频生成进入量产阶段",
+    subtitle: "闭环电商投流素材工厂成新赛道",
+    news_overview:
+      "2月下旬，Seedance 2.0在创作者与营销圈引发热议，讨论焦点从“炫技”转向“规模化投流素材生产”。",
+    news_detail:
+      "2月下旬，多家媒体与行业讨论围绕Seedance 2.0展开：模型在人物/场景一致性、镜头稳定性上显著提升，使视频生成从“单条作品惊艳”转向“批量产能”。在电商投流场景中，品牌更关心是否能支撑50-200条/周的素材迭代节奏，并形成“脚本→生成→剪辑→投放→复盘”的闭环。对闭环电商客户而言，Seedance 2.0的价值不在单条爆款，而在可解释、可规模化的投流素材工厂。",
+    news_bullets: [
+      "视频生成稳定性提升，批量生产可行",
+      "营销关注从爆款转向可跑量",
+      "素材-投放-复盘闭环成为核心"
+    ],
+    quiz: {
+      question: "Seedance 2.0带来的最大变化是什么？",
+      options: ["只能做一条样片", "视频生成进入量产阶段", "禁止用于营销"],
+      answerIndex: 1,
+      hint: "关键词是“量产与跑量”"
+    },
+    biz_insights: [
+      "把视频生成做成‘投流素材工厂’：交付从1条视频升级为脚本库+镜头库+投放看板",
+      "用指标驱动创意：按前三秒钩子/卖点结构做组合实验",
+      "建立素材-投放-复盘闭环：每轮产出可解释结论"
+    ],
+    strategies: [
+      {
+        label: "A 跟风炫技",
+        description: "先做10条样片展示能力",
+        cost: { Team: 2, Budget: 1, Compute: 3 },
+        impact: { Growth: 1, GEO: 0, Ads: 1, Deploy: 0, Risk: 1 },
+        unlock_card: "策略卡：样片展厅"
+      },
+      {
+        label: "B 素材工厂",
+        description: "搭建50-200条/周投流流水线",
+        cost: { Team: 4, Budget: 3, Compute: 5 },
+        impact: { Growth: 2, GEO: 0, Ads: 4, Deploy: 2, Risk: 2 },
+        unlock_card: "策略卡：投流素材工厂"
+      },
+      {
+        label: "C 客户闭环",
+        description: "接入投放与复盘系统做续费抓手",
+        cost: { Team: 3, Budget: 2, Compute: 4 },
+        impact: { Growth: 3, GEO: 0, Ads: 3, Deploy: 3, Risk: 1 },
+        unlock_card: "策略卡：AB复盘引擎"
+      }
+    ],
+    case_popup: {
+      title: "闭环电商：7天起跑版投流素材工厂",
+      scenario: "服务电商客户（护肤/日化/食品），目标：提升CTR与ROI",
+      deliverables: [
+        "脚本模板库（卖点结构×人设口吻×场景）≥30条",
+        "镜头与转场库（开箱/对比/测评/使用场景）≥40组",
+        "生成+剪辑批量流程（统一字幕/封面/口播节奏）",
+        "投放AB复盘表（素材ID→数据→结论→下一轮改动）"
+      ],
+      workflow: [
+        "拆品：卖点与反对点清单",
+        "设结构：前三秒钩子与转化段落",
+        "批量产：生成→剪辑模板→出片",
+        "投放复盘：按CTR/CPM/ROI迭代"
+      ]
+    },
+    insight_fragment: "规模化视频生产才是投流的护城河。"
   },
   {
     id: "xhs-geo",
