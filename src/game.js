@@ -1,11 +1,7 @@
-import {
-  HOTSPOT_CARDS,
-  INSIGHT_COMBINE_TITLE,
-  STRATEGY_COMMENTARY,
-  ACTION_SUGGESTIONS
-} from './data.js';
+import { HOTSPOT_CARDS, INSIGHT_COMBINE_TITLE, STRATEGY_COMMENTARY } from './data.js';
 
 const STAGES = {
+  INTRO: 'INTRO',
   NEWS: 'NEWS',
   QUIZ: 'QUIZ',
   BIZ: 'BIZ',
@@ -14,6 +10,13 @@ const STAGES = {
 
 const METRIC_KEYS = ['Growth', 'GEO', 'Ads', 'Deploy', 'Risk'];
 const CORE_METRICS = ['Growth', 'GEO', 'Ads', 'Deploy'];
+const METRIC_LABELS = {
+  Growth: '增长势能',
+  GEO: 'GEO占位力',
+  Ads: '投流力',
+  Deploy: '交付力',
+  Risk: '风险值'
+};
 
 const TITLE_MAP = {
   'GEO+Ads': 'GEO占位派',
@@ -28,9 +31,8 @@ export function initGame(root) {
   const state = {
     cards: HOTSPOT_CARDS,
     index: 0,
-    stage: STAGES.NEWS,
+    stage: STAGES.INTRO,
     flipped: false,
-    resources: { Team: 10, Budget: 10, Compute: 10 },
     metrics: { Growth: 0, GEO: 0, Ads: 0, Deploy: 0, Risk: 0 },
     strategyCards: [],
     insights: [],
@@ -56,6 +58,11 @@ export function initGame(root) {
     if (state.stage === STAGES.RESULT) {
       screen.appendChild(renderResult(state, toast));
     } else {
+      if (state.stage === STAGES.INTRO) {
+        screen.appendChild(renderIntro());
+        app.insertBefore(screen, modal.el);
+        return;
+      }
       screen.appendChild(renderHeader(state));
       screen.appendChild(renderBoard(state, modal, toast));
     }
@@ -77,16 +84,6 @@ export function initGame(root) {
   }
 
   function applyStrategy(strategy) {
-    const missing = getMissingResources(strategy.cost, state.resources);
-    if (missing.length) {
-      toast.show(`缺少${missing.join(' / ')}资源`);
-      return;
-    }
-
-    Object.keys(strategy.cost).forEach((key) => {
-      state.resources[key] -= strategy.cost[key];
-    });
-
     Object.keys(strategy.impact).forEach((key) => {
       state.metrics[key] += strategy.impact[key];
     });
@@ -96,6 +93,7 @@ export function initGame(root) {
     toast.show(comment);
     nextCard();
   }
+
 
   function handleFlip() {
     state.flipped = true;
@@ -140,24 +138,14 @@ export function initGame(root) {
       <div class="progress-bar"><span style="width:${progressValue}%"></span></div>
     `;
 
-    const resources = document.createElement('div');
-    resources.className = 'resources';
-    resources.innerHTML = ['Team', 'Budget', 'Compute']
-      .map(
-        (key) =>
-          `<div class="resource"><span>${key}</span><strong>${state.resources[key]}</strong></div>`
-      )
-      .join('');
-
     const metrics = document.createElement('div');
     metrics.className = 'metrics';
     metrics.innerHTML = METRIC_KEYS.map((key) => {
       const val = state.metrics[key];
-      return `<div class="metric"><span>${key}</span><strong>${val}</strong></div>`;
+      return `<div class="metric"><span>${METRIC_LABELS[key]}</span><strong>${val}</strong></div>`;
     }).join('');
 
     header.appendChild(progress);
-    header.appendChild(resources);
     header.appendChild(metrics);
     return header;
   }
@@ -182,6 +170,8 @@ export function initGame(root) {
       <p class="subtitle">${card.subtitle}</p>
       <button class="btn primary" id="flipBtn">翻牌进入</button>
     `;
+    const flipBtn = front.querySelector('#flipBtn');
+    if (flipBtn) flipBtn.onclick = handleFlip;
 
     const back = document.createElement('div');
     back.className = 'card-face card-back';
@@ -194,12 +184,44 @@ export function initGame(root) {
 
     board.appendChild(cardWrap);
 
+    return board;
+  }
+
+  function renderIntro() {
+    const intro = document.createElement('div');
+    intro.className = 'intro';
+
+    intro.innerHTML = `
+      <div class="intro-card">
+        <div class="intro-badge">AI热点落地局 · 2026/2/20–2/27</div>
+        <h1>从新闻到生意的卡牌推演</h1>
+        <p class="intro-sub">你将扮演内容营销策略负责人，通过8张热点卡，依次完成：新闻速览 → 理解挑战 → 业务落地。每次选择都会消耗资源并影响五项指标，最终生成你的策略流派与行动海报。</p>
+        <div class="intro-grid">
+          <div class="intro-item">
+            <h3>玩法节奏</h3>
+            <p>每张卡必须三阶段通关，答对才能进入业务落地。</p>
+          </div>
+          <div class="intro-item">
+            <h3>指标系统</h3>
+            <p>增长势能 / GEO占位力 / 投流力 / 交付力 / 风险值。</p>
+          </div>
+          <div class="intro-item">
+            <h3>结局产出</h3>
+            <p>策略流派称号 + 策略卡总结 + 可分享海报。</p>
+          </div>
+        </div>
+        <div class="intro-actions">
+          <button class="btn primary" id="startGame">开始推演</button>
+        </div>
+      </div>
+    `;
+
     setTimeout(() => {
-      const flipBtn = document.getElementById('flipBtn');
-      if (flipBtn) flipBtn.onclick = handleFlip;
+      const startBtn = intro.querySelector('#startGame');
+      if (startBtn) startBtn.onclick = () => goStage(STAGES.NEWS);
     }, 0);
 
-    return board;
+    return intro;
   }
 
   function renderBackContent(state, card, modal, toast) {
@@ -213,14 +235,29 @@ export function initGame(root) {
         <ul class="bullets">
           ${card.news_bullets.map((b) => `<li>${b}</li>`).join('')}
         </ul>
+        ${
+          card.sources && card.sources.length
+            ? `<div class="sources">
+                <div class="sources-title">信源链接</div>
+                <ul>
+                  ${card.sources
+                    .map(
+                      (s) =>
+                        `<li><a href="${s.url}" target="_blank" rel="noopener">${s.title}</a>${
+                          s.note ? `<span class="source-note">${s.note}</span>` : ''
+                        }</li>`
+                    )
+                    .join('')}
+                </ul>
+              </div>`
+            : ''
+        }
         <div class="actions">
           <button class="btn primary" id="toQuiz">进入理解挑战</button>
         </div>
       `;
-      setTimeout(() => {
-        const toQuiz = document.getElementById('toQuiz');
-        if (toQuiz) toQuiz.onclick = () => goStage(STAGES.QUIZ);
-      }, 0);
+      const toQuiz = content.querySelector('#toQuiz');
+      if (toQuiz) toQuiz.onclick = () => goStage(STAGES.QUIZ);
     }
 
     if (state.stage === STAGES.QUIZ) {
@@ -239,11 +276,9 @@ export function initGame(root) {
         </div>
         <div class="hint">答错可重试</div>
       `;
-      setTimeout(() => {
-        content.querySelectorAll('.option').forEach((btn) => {
-          btn.onclick = () => onQuizAnswer(Number(btn.dataset.idx));
-        });
-      }, 0);
+      content.querySelectorAll('.option').forEach((btn) => {
+        btn.onclick = () => onQuizAnswer(Number(btn.dataset.idx));
+      });
     }
 
     if (state.stage === STAGES.BIZ) {
@@ -257,20 +292,18 @@ export function initGame(root) {
         </div>
         <div class="strategy-grid">
           ${card.strategies
-            .map((s, idx) => renderStrategyCard(s, state.resources, idx))
+            .map((s, idx) => renderStrategyCard(s, idx))
             .join('')}
         </div>
       `;
-      setTimeout(() => {
-        const caseBtn = document.getElementById('caseBtn');
-        if (caseBtn) caseBtn.onclick = openCasePopup;
-        content.querySelectorAll('.strategy-btn').forEach((btn) => {
-          btn.onclick = () => {
-            const index = Number(btn.dataset.idx);
-            applyStrategy(card.strategies[index]);
-          };
-        });
-      }, 0);
+      const caseBtn = content.querySelector('#caseBtn');
+      if (caseBtn) caseBtn.onclick = openCasePopup;
+      content.querySelectorAll('.strategy-btn').forEach((btn) => {
+        btn.onclick = () => {
+          const index = Number(btn.dataset.idx);
+          applyStrategy(card.strategies[index]);
+        };
+      });
     }
 
     return content;
@@ -281,11 +314,12 @@ export function initGame(root) {
     container.className = 'result';
 
     const { title, topMetrics } = getStrategyTitle(state.metrics);
-    const suggestions = buildSuggestions(topMetrics);
+    const { summary, signals } = buildOutcomeSummary(state.metrics, state.strategyCards);
 
     container.innerHTML = `
-      <div class="result-header">
-        <h1>你的策略流派：${title}</h1>
+      <div class="result-hero">
+        <div class="hero-badge">策略流派</div>
+        <h1>${title}</h1>
         <p class="result-sub">${INSIGHT_COMBINE_TITLE}：${state.insights.join(' / ') || '（尚未收集）'}</p>
       </div>
       <div class="result-grid">
@@ -303,20 +337,12 @@ export function initGame(root) {
           </details>
         </div>
         <div class="panel">
-          <div class="panel-title">下周就能做</div>
+          <div class="panel-title">本局业务总结</div>
+          <div class="summary-text">${summary}</div>
+          <div class="panel-title mini">下一步更值得关注</div>
           <ul class="list">
-            ${suggestions.map((s) => `<li>${s}</li>`).join('')}
+            ${signals.map((s) => `<li>${s}</li>`).join('')}
           </ul>
-        </div>
-      </div>
-      <div class="poster-area">
-        <div class="panel">
-          <div class="panel-title">海报导出</div>
-          <div class="poster-actions">
-            <button class="btn primary" id="makePoster">生成分享海报</button>
-            <a class="btn ghost" id="downloadPoster" href="#" download="ai-hotspot-poster.png">下载PNG</a>
-          </div>
-          <canvas id="posterCanvas" width="960" height="540"></canvas>
         </div>
       </div>
       <div class="restart">
@@ -325,23 +351,7 @@ export function initGame(root) {
     `;
 
     setTimeout(() => {
-      const makePoster = container.querySelector('#makePoster');
-      const downloadPoster = container.querySelector('#downloadPoster');
-      const canvas = container.querySelector('#posterCanvas');
       const restart = container.querySelector('#restartBtn');
-
-      if (makePoster) {
-        makePoster.onclick = () => {
-          drawPoster(canvas, {
-            title: 'AI热点落地局：从新闻到生意',
-            badge: title,
-            metrics: state.metrics,
-            actions: suggestions
-          });
-          toast.show('海报已生成，可右键保存或下载');
-          downloadPoster.href = canvas.toDataURL('image/png');
-        };
-      }
 
       if (restart) {
         restart.onclick = () => window.location.reload();
@@ -352,11 +362,7 @@ export function initGame(root) {
   }
 }
 
-function renderStrategyCard(strategy, resources, idx) {
-  const missing = getMissingResources(strategy.cost, resources);
-  const disabled = missing.length ? 'disabled' : '';
-
-  const costText = `Team ${strategy.cost.Team} / Budget ${strategy.cost.Budget} / Compute ${strategy.cost.Compute}`;
+function renderStrategyCard(strategy, idx) {
   const impactText = `Growth ${formatImpact(strategy.impact.Growth)} | GEO ${formatImpact(
     strategy.impact.GEO
   )} | Ads ${formatImpact(strategy.impact.Ads)} | Deploy ${formatImpact(
@@ -364,25 +370,15 @@ function renderStrategyCard(strategy, resources, idx) {
   )} | Risk ${formatImpact(strategy.impact.Risk)}`;
 
   return `
-    <div class="strategy ${disabled}">
+    <div class="strategy">
       <div class="strategy-title">${strategy.label}</div>
       <div class="strategy-desc">${strategy.description}</div>
-      <div class="strategy-meta">成本：${costText}</div>
       <div class="strategy-meta">影响：${impactText}</div>
-      <button class="btn primary strategy-btn ${disabled}" data-idx="${idx}">
+      <button class="btn primary strategy-btn" data-idx="${idx}">
         选择策略
       </button>
-      ${missing.length ? `<div class="missing">缺少${missing.join(' / ')}资源</div>` : ''}
     </div>
   `;
-}
-
-function getMissingResources(cost, resources) {
-  const missing = [];
-  Object.keys(cost).forEach((key) => {
-    if (resources[key] < cost[key]) missing.push(key);
-  });
-  return missing;
 }
 
 function formatImpact(value) {
@@ -399,7 +395,7 @@ function renderMetricBars(metrics) {
         const width = Math.min(100, Math.max(0, (val + 10) * 5));
         return `
           <div class="bar">
-            <span>${key}</span>
+            <span>${METRIC_LABELS[key]}</span>
             <div class="bar-track"><i style="width:${width}%"></i></div>
             <strong>${val}</strong>
           </div>
@@ -421,10 +417,23 @@ function getStrategyTitle(metrics) {
   return { title, topMetrics };
 }
 
-function buildSuggestions(topMetrics) {
-  const first = ACTION_SUGGESTIONS[topMetrics[0]] || [];
-  const second = ACTION_SUGGESTIONS[topMetrics[1]] || [];
-  return [first[0], first[1], second[0]].filter(Boolean);
+function buildOutcomeSummary(metrics, strategyCards) {
+  const sorted = CORE_METRICS.map((key) => ({ key, val: metrics[key] })).sort(
+    (a, b) => b.val - a.val
+  );
+  const focus = sorted.slice(0, 2).map((s) => METRIC_LABELS[s.key]).join(' + ');
+  const risk = metrics.Risk;
+  const riskTone = risk >= 6 ? '风险偏高，建议补强合规与成本可控。' : risk >= 3 ? '风险可控但需持续校验。' : '风险较低，可稳步扩张。';
+
+  const summary = `本局策略重心落在「${focus}」，策略卡主要集中在${strategyCards.length}条行动路径上。你的选择体现了对“可复制增长”和“业务链路”的偏好，同时避免了单点爆发的脆弱性。${riskTone}`;
+
+  const signals = [
+    '行业内“入口→任务链”转化率的真实数据与案例',
+    '平台对AI内容标识/版权的最新监管与执行口径',
+    'GEO类内容被AI总结引用的结构与语料变化趋势'
+  ];
+
+  return { summary, signals };
 }
 
 function createToast() {
@@ -482,80 +491,4 @@ function createModal() {
   backdrop.onclick = close;
 
   return { el, open, close };
-}
-
-function drawPoster(canvas, { title, badge, metrics, actions }) {
-  const ctx = canvas.getContext('2d');
-  const w = canvas.width;
-  const h = canvas.height;
-
-  const grd = ctx.createLinearGradient(0, 0, w, h);
-  grd.addColorStop(0, '#f6f3ea');
-  grd.addColorStop(1, '#e3efe6');
-  ctx.fillStyle = grd;
-  ctx.fillRect(0, 0, w, h);
-
-  ctx.fillStyle = '#1b1b1b';
-  ctx.font = '28px "Noto Sans SC", sans-serif';
-  ctx.fillText(title, 40, 60);
-
-  ctx.fillStyle = '#005b4f';
-  ctx.font = 'bold 36px "Noto Sans SC", sans-serif';
-  ctx.fillText(badge, 40, 110);
-
-  const barStartX = 40;
-  const barStartY = 150;
-  const barWidth = 360;
-  const barHeight = 16;
-  const gap = 36;
-
-  METRIC_KEYS.forEach((key, idx) => {
-    const y = barStartY + idx * gap;
-    const val = metrics[key];
-    const norm = Math.min(1, Math.max(0, (val + 10) / 20));
-
-    ctx.fillStyle = '#cbded5';
-    ctx.fillRect(barStartX, y, barWidth, barHeight);
-
-    ctx.fillStyle = key === 'Risk' ? '#d06b5e' : '#3c7d63';
-    ctx.fillRect(barStartX, y, barWidth * norm, barHeight);
-
-    ctx.fillStyle = '#1b1b1b';
-    ctx.font = '16px "Noto Sans SC", sans-serif';
-    ctx.fillText(`${key} ${val}`, barStartX + barWidth + 16, y + 13);
-  });
-
-  ctx.fillStyle = '#1b1b1b';
-  ctx.font = '18px "Noto Sans SC", sans-serif';
-  ctx.fillText('下周行动建议', 460, 170);
-
-  ctx.font = '16px "Noto Sans SC", sans-serif';
-  let textY = 210;
-  actions.forEach((line) => {
-    textY = drawWrapText(ctx, `- ${line}`, 460, textY, 440, 22);
-    textY += 6;
-  });
-
-  ctx.fillStyle = '#8f9b94';
-  ctx.font = '12px "Noto Sans SC", sans-serif';
-  ctx.fillText('AI热点落地局 · 2026/2/20–2/27', 40, h - 30);
-}
-
-function drawWrapText(ctx, text, x, y, maxWidth, lineHeight) {
-  const words = text.split('');
-  let line = '';
-  let currentY = y;
-  for (let i = 0; i < words.length; i += 1) {
-    const testLine = line + words[i];
-    const metrics = ctx.measureText(testLine);
-    if (metrics.width > maxWidth && i > 0) {
-      ctx.fillText(line, x, currentY);
-      line = words[i];
-      currentY += lineHeight;
-    } else {
-      line = testLine;
-    }
-  }
-  ctx.fillText(line, x, currentY);
-  return currentY;
 }
