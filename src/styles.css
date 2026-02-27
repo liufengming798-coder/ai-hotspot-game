@@ -237,7 +237,7 @@ body::after {
 }
 
 .summary {
-  font-size: 16px;
+  font-size: 15px;
   line-height: 1.7;
 }
 
@@ -330,6 +330,12 @@ body::after {
 .btn.primary {
   background: linear-gradient(135deg, #4a6b5f, #6f8478);
   color: #fff;
+}
+
+.btn.small {
+  padding: 6px 14px;
+  font-size: 12px;
+  align-self: center;
 }
 
 .btn.primary:hover {

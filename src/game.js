@@ -168,7 +168,8 @@ export function initGame(root) {
       <div class="card-date">${card.date}</div>
       <h2>${card.title}</h2>
       <p class="subtitle">${card.subtitle}</p>
-      <button class="btn primary" id="flipBtn">翻牌进入</button>
+      <p class="summary">${card.news_overview || card.news_summary}</p>
+      <button class="btn primary small" id="flipBtn">翻牌进入</button>
     `;
     const flipBtn = front.querySelector('#flipBtn');
     if (flipBtn) flipBtn.onclick = handleFlip;
@@ -230,28 +231,11 @@ export function initGame(root) {
 
     if (state.stage === STAGES.NEWS) {
       content.innerHTML = `
-        <div class="stage-title">① 新闻速览</div>
-        <p class="summary">${card.news_summary}</p>
+        <div class="stage-title">① 新闻详解</div>
+        <p class="summary">${card.news_detail || card.news_summary}</p>
         <ul class="bullets">
           ${card.news_bullets.map((b) => `<li>${b}</li>`).join('')}
         </ul>
-        ${
-          card.sources && card.sources.length
-            ? `<div class="sources">
-                <div class="sources-title">信源链接</div>
-                <ul>
-                  ${card.sources
-                    .map(
-                      (s) =>
-                        `<li><a href="${s.url}" target="_blank" rel="noopener">${s.title}</a>${
-                          s.note ? `<span class="source-note">${s.note}</span>` : ''
-                        }</li>`
-                    )
-                    .join('')}
-                </ul>
-              </div>`
-            : ''
-        }
         <div class="actions">
           <button class="btn primary" id="toQuiz">进入理解挑战</button>
         </div>
